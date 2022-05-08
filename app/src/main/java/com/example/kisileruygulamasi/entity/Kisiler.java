@@ -1,10 +1,19 @@
 package com.example.kisileruygulamasi.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class Kisiler implements Serializable {
+    @SerializedName("kisi_id")
+    @Expose
     private int kisi_id;
+    @SerializedName("kisi_ad")
+    @Expose
     private String kisi_ad;
+    @SerializedName("kisi_tel")
+    @Expose
     private String kisi_tel;
 
     public Kisiler() {
