@@ -81,4 +81,10 @@ public class AnasayfaFragment extends Fragment implements SearchView.OnQueryText
         viewModel.ara(newText);
         return true;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.kisileriYukle();
+    }
 }
