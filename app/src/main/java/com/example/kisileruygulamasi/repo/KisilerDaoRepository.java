@@ -4,15 +4,24 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.kisileruygulamasi.Retrofit.ApiUtils;
+import com.example.kisileruygulamasi.Retrofit.KisilerDao;
 import com.example.kisileruygulamasi.entity.Kisiler;
+import com.example.kisileruygulamasi.entity.KisilerCevap;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class KisilerDaoRepository {
     private MutableLiveData<List<Kisiler>> kisilerListesi;
+    private KisilerDao kisilerDao;
 
     public KisilerDaoRepository() {
+        kisilerDao = ApiUtils.getKisilerDaoInterface();
         kisilerListesi = new MutableLiveData();
     }
 
@@ -37,13 +46,17 @@ public class KisilerDaoRepository {
     }
 
     public void tumKisileriAl(){
-        ArrayList<Kisiler> liste = new ArrayList<>();
-        Kisiler k1 = new Kisiler(1,"Ahmet","11111");
-        Kisiler k2 = new Kisiler(2,"Zeynep","22222");
-        Kisiler k3 = new Kisiler(3,"Beyza","33333");
-        liste.add(k1);
-        liste.add(k2);
-        liste.add(k3);
-        kisilerListesi.setValue(liste);
+        kisilerDao.tumKisiler().enqueue(new Callback<KisilerCevap>() {
+            @Override
+            public void onResponse(Call<KisilerCevap> call, Response<KisilerCevap> response) {
+                List<Kisiler> liste = response.body().getKisiler();
+                kisilerListesi.setValue(liste);
+            }
+
+            @Override
+            public void onFailure(Call<KisilerCevap> call, Throwable t) {
+
+            }
+        });
     }
 }
